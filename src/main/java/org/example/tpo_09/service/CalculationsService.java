@@ -1,8 +1,7 @@
 package org.example.tpo_09.service;
 
-
-import org.example.tpo_09.model.BmiDto;
-import org.example.tpo_09.model.BmrDto;
+import org.example.tpo_09.exceptions.*;
+import org.example.tpo_09.model.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,7 +9,7 @@ public class CalculationsService {
 
     public BmiDto calculateBmi(double weight, double height) {
         if (weight <= 0 || height <= 0) {
-            throw new IllegalArgumentException(
+            throw new InvalidDataException(
                     "invalid data, weight and height parameters must be positive numbers"
             );
         }
@@ -37,7 +36,7 @@ public class CalculationsService {
             String sex, double weight, double height, int age
     ) {
         if (weight <= 0 || height <= 0 || age <= 0) {
-            throw new IllegalStateException(
+            throw new InvalidDataException(
                     "invalid data, weight, height and age parameters must be positive numbers"
             );
         }
@@ -48,7 +47,7 @@ public class CalculationsService {
             case "woman" -> 447.593 + 9.247 * weight
                     + 3.098 * height
                     - 4.330 * age;
-            default -> throw new UnsupportedOperationException("invalid gender data");
+            default -> throw new InvalidGenderException("invalid gender data");
         };
         int bmrInt = (int) raw;
         BmrDto b = new BmrDto();
